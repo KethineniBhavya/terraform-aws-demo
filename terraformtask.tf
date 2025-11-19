@@ -8,11 +8,12 @@ terraform {
   required_version = ">= 1.2"
 }
 
-resource "aws_s3_bucket" "my_bucket" {
+resource "aws_s3_bucket" "Bucket1" {
   bucket = "s3-demo-storage"  # Must be globally unique and lowercase
 
   tags = {
-    Name        = "MyBucket"
+    Name        = "Bucket123"
     Environment = "Dev"
   }
+
 }
