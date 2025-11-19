@@ -9,7 +9,7 @@ terraform {
 }
 
 resource "aws_s3_bucket" "Bucket1" {
-  bucket = "s3-demo-storage"  # Must be globally unique and lowercase
+  bucket = "s3-demo-20251119"  # Must be globally unique and lowercase
 
   tags = {
     Name        = "Bucket123"
@@ -17,3 +17,4 @@ resource "aws_s3_bucket" "Bucket1" {
   }
 
 }
+
