@@ -38,3 +38,4 @@ jobs:
           aws-region: eu-west-2
 
       - run: terraform init
+      - run: terraform apply -auto-approve
