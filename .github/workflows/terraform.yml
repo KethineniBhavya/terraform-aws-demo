@@ -16,7 +16,7 @@ jobs:
       # OIDC-based AWS authentication
       - uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::536270448817:role/myaccessrole
+          role-to-assume: arn:aws:iam::536270448817:role/github-access-role
           aws-region: eu-west-2
 
       - run: terraform init
@@ -34,7 +34,7 @@ jobs:
       # OIDC-based AWS authentication
       - uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::536270448817:role/myaccessrole
+          role-to-assume: arn:aws:iam::536270448817:role/github-access-role
           aws-region: eu-west-2
 
       - run: terraform init
