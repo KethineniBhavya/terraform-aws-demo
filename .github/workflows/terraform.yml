@@ -1,47 +1,66 @@
-name: Terraform AWS Deployment
+name: Terraform Deploy
+
 on:
+
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+
+    branches:
+
+      - main
+
 jobs:
-  plan:
+
+  terraform:
+
+    name: 'Terraform Apply'
+
     runs-on: ubuntu-latest
+
+    permissions:
+
+      id-token: write
+
+      contents: read
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      # Cache Terraform plugins
-      - name: Cache Terraform plugins
-        uses: actions/cache@v3
+
+      - name: Checkout code
+
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+
+        uses: aws-actions/configure-aws-credentials@v4
+
         with:
-          path: ~/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
-      # OIDC-based AWS authentication
-      - uses: aws-actions/configure-aws-credentials@v2
-        with:
+
           role-to-assume: arn:aws:iam::536270448817:role/github-access-role
-          aws-region: eu-west-2
-      - run: terraform init
-      - run: terraform validate
-      - run: terraform plan
-  apply:
-    needs: plan
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
-      # Cache Terraform plugins
-      - name: Cache Terraform plugins
-        uses: actions/cache@v3
+
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+
+        uses: hashicorp/setup-terraform@v2
+
         with:
-          path: ~/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
-      # OIDC-based AWS authentication
-      - uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::536270448817:role/github-access-role
-          aws-region: eu-west-2
-      - run: terraform init
-      - run: terraform apply -auto-approve
+
+          terraform_version: 1.5.7
+
+      - name: Terraform Init
+
+        run: terraform init
+
+        working-directory: ./terraform
+
+      - name: Terraform Plan
+
+        run: terraform plan
+
+        working-directory: ./terraform
+
+      - name: Terraform Apply
+
+        run: terraform apply -auto-approve
+
+        working-directory: ./terraform
  
